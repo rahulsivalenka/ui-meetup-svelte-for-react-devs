@@ -120,4 +120,104 @@ export default function App() {
 
 ---
 
+### State
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx subtitle="direct assignments to the state won't work"
+// App.js
+export default function App() {
+  let name = 'React';
+
+  const handleChangeName = () => {
+    name = `why is the name not changing?!! 😡`;
+  };
+
+  return (
+    <>
+      <p>{name}</p>
+      <button
+        onClick={handleChangeName}
+      >
+        Change Name
+      </button>
+    </>
+  );
+}
+```
+
+```html subtitle="direct assignments work to change the state"
+<!-- App.svelte -->
+<script>
+  let name = 'Svelte';
+  const handleChangeName = () => {
+    name =
+      'name changes by simple assignment!! Super Cool! 😎';
+  };
+</script>
+
+<!-- html goes here -->
+<p>{name}</p>
+<button on:click="{handleChangeName}">
+  Change Name
+</button>
+```
+
+</Step>
+
+<Step>
+
+```jsx 3:6,9:11 subtitle="need to call a setter method to update state"
+// App.js
+export default function App() {
+  const [
+    name,
+    setName,
+  ] = React.useState('React');
+
+  const handleChangeName = () => {
+    setName(
+      `lot of work for a simple state update 😢`
+    );
+  };
+
+  return (
+    <>
+      <p>{name}</p>
+      <button
+        onClick={handleChangeName}
+      >
+        Change Name
+      </button>
+    </>
+  );
+}
+```
+
+```diff 3,5:6 subtitle="direct assignments work to change the state"
+
+```
+
+</Step>
+
+<Step>
+
+```diff 3:6 subtitle="state is defined using a special hook called useState"
+
+```
+
+```diff 3 subtitle="state is defined using normal javascript variable declaration"
+
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 Thank You
