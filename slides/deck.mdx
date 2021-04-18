@@ -38,9 +38,9 @@ This talk introduces Svelte to React devs.
 
 <Step>
 
-```jsx
+```jsx subtitle="component is a JavaScript function"
 // App.js
-function App() {
+export default function App() {
   let name = 'React';
 
   return (
@@ -59,7 +59,7 @@ function App() {
 }
 ```
 
-```html
+```html subtitle="component is written as plain HTML"
 <!-- App.svelte -->
 <script>
   let name = 'Svelte';
@@ -76,6 +76,42 @@ function App() {
     color: #ff3e00;
   }
 </style>
+```
+
+</Step>
+
+<Step title="HTML">
+
+```diff 6:16 subtitle="returns HTML to be rendered using JSX syntax"
+
+```
+
+```diff 6:10 subtitle="the component itself is the HTML"
+
+```
+
+</Step>
+
+<Step title="CSS">
+
+```diff 9:11 subtitle="can style using inline style object or CSS-in-JS solutions or CSS modules or plain CSS file"
+
+```
+
+```diff 12:16 subtitle="styles are written in a style tag"
+
+```
+
+</Step>
+
+<Step title="JS">
+
+```diff 3 subtitle="JavaScript goes directly in the component's function body"
+
+```
+
+```diff 2:5 subtitle="JavaScript goes under a script tag"
+
 ```
 
 </Step>
