@@ -1,0 +1,87 @@
+import { oceanicNext } from '@code-surfer/themes';
+import {
+  CodeSurfer,
+  CodeSurferColumns,
+  Step,
+} from 'code-surfer';
+import { themes } from 'mdx-deck';
+
+import Head from './components/Head';
+import { COLUMN_THEMES } from './constants';
+
+import './styles/overrides.css';
+import './styles/styles.css';
+
+export const theme = themes.notes;
+
+<Head title="Svelte for React Devs" />
+
+<!-- Slides Start -->
+
+# Svelte for React Devs
+
+#### UI Meetup - 19th Apr 2021
+
+###### By Phani Rahul Sivalenka [@rahulsivalenka](https://twitter.com/rahulsivalenka)
+
+---
+
+This talk introduces Svelte to React devs.
+
+---
+
+### Building Blocks
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx
+// App.js
+function App() {
+  let name = 'React';
+
+  return (
+    <p>
+      Here's a good ol'{' '}
+      <span
+        style={{
+          color: '#61DAFB',
+        }}
+      >
+        {name}
+      </span>{' '}
+      component.
+    </p>
+  );
+}
+```
+
+```html
+<!-- App.svelte -->
+<script>
+  let name = 'Svelte';
+</script>
+
+<!-- html goes here -->
+<p>
+  There's a new kid in town. It's name
+  is <span>{name}</span>.
+</p>
+
+<style>
+  span {
+    color: #ff3e00;
+  }
+</style>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+Thank You
