@@ -1001,4 +1001,84 @@ export default function App() {
 
 ---
 
+### Lifecycle
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step title="Mount">
+
+```jsx subtitle="useEffect with an empty dependency array acts as componentDidMount"
+// componentDidMount
+// useEffect callback cannot be directly marked with async
+React.useEffect(() => {
+  const makeCall = async () => {
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/photos?_limit=20`
+    );
+		setPhotos(await res.json());
+  }
+
+  makeCall();
+}, [])
+```
+
+```html subtitle="onMount is used to detect when component is mounted"
+<script>
+  import { onMount } from 'svelte';
+
+  let photos = [];
+
+  onMount(async () => {
+    const res = await fetch(
+      `https://jsonplaceholder.typicode.com/photos?_limit=20`
+    );
+		photos = await res.json();
+  });
+</script>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step title="Destroy">
+
+```jsx subtitle="useEffect can have an optional return function which is called on component destroy"
+// componentDidMount
+React.useEffect(() => {
+  const interval = setInterval(
+    () => setSeconds(seconds => seconds += 1),
+    1000
+  );
+
+  return () => {
+    // this is called when component is destroyed
+    clearInterval(interval);
+  } 
+}, [])
+```
+
+```html subtitle="onDestroy is used to detect when component is mounted"
+<script>
+	import { onDestroy } from 'svelte';
+
+	let seconds = 0;
+	const interval = setInterval(() => seconds += 1, 1000);
+
+	onDestroy(() => clearInterval(interval));
+</script>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 Thank You
