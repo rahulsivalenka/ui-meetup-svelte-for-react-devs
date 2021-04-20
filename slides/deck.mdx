@@ -255,6 +255,41 @@ export default function App({ name = 'a mystery' }) {
 <App {...propsObject} />
 ```
 
+```html
+<!-- same here -->
+```
+
+</Step>
+
+<Step>
+
+```jsx subtitle="prop without an assignment is considered a boolean"
+export default function App({ name }) {
+  return (
+    <>
+      {/* expanded here is passed as expanded={true} to Sidebar */}
+      <Sidebar expanded />
+
+      {/* assignment is needed for it to pass the name along */}
+      <CenterContent name={name} />
+    </>
+  );
+}
+```
+
+```html subtitle="prop without an assignment is considered a variable to be passed along"
+<script>
+  export let name;
+</script>
+
+<!-- expanded={true} is mandatory else an error is raised saying
+expanded is not defined if it is bound as {expanded} -->
+<Sidebar expanded={true} />
+
+<!-- name is passed along with this binding -->
+<CenterContent {name} />
+```
+
 </Step>
 
 </CodeSurferColumns>
@@ -837,6 +872,127 @@ Events
 <div on:mousemove|preventDefault="{e => m = { x: e.clientX, y: e.clientY }}">
 	The mouse position is {m.x} x {m.y}
 </div>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx 1:13 subtitle="component events are nothing but method props"
+// Inner.js
+export default function Inner({ onMessage }) {
+  const sayHello = () => {
+    onMessage({
+      text: 'Hello!'
+    })
+  }
+  return (
+    <button onClick={sayHello}>
+      Click to say hello
+    </button>
+  )
+}
+
+// App.js
+import Inner from './Inner';
+
+export default function App() {
+  const handleMessage = (event) => alert(event.text);
+  return <Inner onMessage={handleMessage} />
+}
+```
+
+```html 1:16 subtitle="component events are dispatched using a special createEventDispatcher method"
+<!-- Inner.svelte -->
+<script>
+	import { createEventDispatcher } from 'svelte';
+
+	const dispatch = createEventDispatcher();
+
+	function sayHello() {
+		dispatch('message', {
+			text: 'Hello!'
+		});
+	}
+</script>
+
+<button on:click={sayHello}>
+	Click to say hello
+</button>
+
+<!-- App.svelte -->
+<script>
+	import Inner from './Inner.svelte';
+
+	function handleMessage(event) {
+		alert(event.detail.text);
+	}
+</script>
+
+<Inner on:message={handleMessage}/>
+```
+
+</Step>
+
+<Step>
+
+```diff 14:21 subtitle="handled by binding a function to the method prop of the event"
+```
+
+```diff 17:28 subtitle="handled by binding a function to on:<eventName> (on:message here) directive"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+### Input Binding
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx subtitle="input binding is done with the help of value and onChange event"
+export default function App() {
+  const [name, setName] = React.useState('world');
+  const [confirmed, setConfirmed] = React.useState(false);
+
+  return (
+    <>
+      <input value={name} onChange={e => setName(e.target.value)} />
+      <input type="checkbox" value={confirmed}
+             onChange={e => setConfirmed(e.target.checked)} />
+
+      <h1>Hello {name}! {confirmed ? 'Confirmed!'}</h1>
+    </>
+  )
+}
+```
+
+```html subtitle="input binding is done using bind:<property> directive (bind:value here)"
+<script>
+	let name = 'world';
+	let confirmed = false;
+</script>
+
+<input bind:value={name}>
+<input type=checkbox bind:checked={confirmed}>
+
+<h1>Hello {name}!
+{#if yes}
+	Confirmed!
+{/if}
+</h1>
 ```
 
 </Step>
