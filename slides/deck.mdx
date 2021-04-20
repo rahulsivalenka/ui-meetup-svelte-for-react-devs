@@ -26,6 +26,47 @@ This talk introduces Svelte to React devs.
 
 ---
 
+<div className="full-width basic-text-slide">
+
+# Where Svelte is strong
+
+* _minimal learning curve_ - as Svelte components are written with almost usual HTML, CSS and JavaScript.
+* _less code_ - allows us to produce real business logic without additional coding complexities.
+* _no virtual DOM_ - makes the app even faster.
+* _lightweight_ - bundles down to around 4 KB when compared to React (around 40KB).
+* _faster build times_ - improves DX.
+* _scoped styling out-of-the-box_ - means no CSS leaking unless we intend to
+* _in-built state management_ - using stores
+
+</div>
+
+---
+
+<div className="full-width basic-text-slide">
+
+# Where Svelte falls behind
+
+* _limited ecosystem_ - as it is a relatively new framework, it is not yet adopted widely. The ecosystem of Svelte is still growing and may not fulfill the current requirements of projects. 
+* _missing advanced features_ - advanced features such as offered by React context API and Suspense are not yet available in Svelte
+
+</div>
+
+---
+
+<div className="full-width basic-text-slide">
+
+# Is Svelte ready for production?
+
+<div style="font-size: 2.5rem;">
+<p style="color: green; font-size: 4rem;">For basic web apps and static sites it would be a perfect fit.</p>
+<p style="color: red">For complex web applications we might have to wait a bit for SvelteKit to come out of <a href="https://svelte.dev/blog/sveltekit-beta" target="_blank">beta</a>.</p>
+<p style="color: orange">It is possible to use <a href="https://sapper.svelte.dev/" target="_blank">Sapper</a> to build complex web applications. However, Sapper is <a href="https://svelte.dev/blog/whats-the-deal-with-sveltekit" target="_blank">discontinued</a> with their efforts geared towards SvelteKit.</p>
+</div>
+
+</div>
+
+---
+
 ### Building Blocks
 
 ---
@@ -829,7 +870,7 @@ Events
 </div>
 ```
 
-```html subtitle="DOM events can be listened using on: direct"
+```html subtitle="DOM events can be listened using on: directive"
 <div on:mousemove={handleMousemove}>
 	The mouse position is {m.x} x {m.y}
 </div>
@@ -1135,16 +1176,16 @@ React.useEffect(() => {
 }, [dependencies])
 ```
 
-```html subtitle="The beforeUpdate function schedules work to happen immediately before the DOM is updated. afterUpdate is its counterpart, used for running code once the DOM is in sync with your data."
+```html subtitle="beforeUpdate and afterUpdate functions are used to listen to updates"
 <script>
-	import { beforeUpdate, afterUpdate } from 'svelte';
+  import { beforeUpdate, afterUpdate } from 'svelte';
 
-	beforeUpdate(() => {
-    // ...
+  beforeUpdate(() => {
+    // schedules work to happen immediately before the DOM is updated
   });
 
   afterUpdate(() => {
-    // ...
+    // used for running code once the DOM is in sync with your data.
   });
 </script>
 ```
