@@ -474,4 +474,188 @@ export default function App({ user = DEFAULT_USER }) {
 
 ---
 
+### Loops
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx 14:22 subtitle=".map is used to loop in JSX"
+// App.js
+export default function App() {
+  const cats = [
+		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
+		{ id: 'z_AbfPXTKms', name: 'Maru' },
+		{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' }
+	];
+  
+  return (
+    <>
+      <h1>The Famous Cats of YouTube</h1>
+
+      <ul>
+        {cats.map((cat, i) => (
+          <li>
+            <a target="_blank"
+              href={`https://www.youtube.com/watch?v=${cat.id}`}
+            >
+              {i + 1}: {cat.name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+```html 13:21 subtitle="each is used to loop in Svelte"
+<!-- App.svelte -->
+<script>
+	const cats = [
+		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
+		{ id: 'z_AbfPXTKms', name: 'Maru' },
+		{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' }
+	];
+</script>
+
+<h1>The Famous Cats of YouTube</h1>
+
+<ul>
+	{#each cats as cat, i}
+    <li>
+      <a target="_blank"
+         href="https://www.youtube.com/watch?v={cat.id}"
+      >
+        {i + 1}: {cat.name}
+      </a>
+    </li>
+	{/each}
+</ul>
+```
+
+</Step>
+
+<Step>
+
+```jsx subtitle=".map is used to loop in JSX"
+// App.js
+export default function App() {
+  const cats = [
+		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
+		{ id: 'z_AbfPXTKms', name: 'Maru' },
+		{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' }
+	];
+  
+  return (
+    <>
+      <h1>The Famous Cats of YouTube</h1>
+
+      <ul>
+        {cats.map(({ id, name }, i) => (
+          <li>
+            <a target="_blank"
+              href={`https://www.youtube.com/watch?v=${id}`}
+            >
+              {i + 1}: {name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+```html subtitle="each is used to loop in Svelte"
+<!-- App.svelte -->
+<script>
+	const cats = [
+		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
+		{ id: 'z_AbfPXTKms', name: 'Maru' },
+		{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' }
+	];
+</script>
+
+<h1>The Famous Cats of YouTube</h1>
+
+<ul>
+	{#each cats as { id, name }, i}
+    <li>
+      <a target="_blank"
+         href="https://www.youtube.com/watch?v={id}"
+      >
+        {i + 1}: {name}
+      </a>
+    </li>
+	{/each}
+</ul>
+```
+
+</Step>
+
+<Step>
+
+```jsx subtitle="a key={id} tells React how to figure our what changed"
+// App.js
+export default function App() {
+  const cats = [
+		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
+		{ id: 'z_AbfPXTKms', name: 'Maru' },
+		{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' }
+	];
+  
+  return (
+    <>
+      <h1>The Famous Cats of YouTube</h1>
+
+      <ul>
+        {cats.map(({ id, name }, i) => (
+          <li key={id}>
+            <a target="_blank"
+              href={`https://www.youtube.com/watch?v=${id}`}
+            >
+              {i + 1}: {name}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
+}
+```
+
+```html subtitle="a (id) here tells React how to figure our what changed"
+<!-- App.svelte -->
+<script>
+	const cats = [
+		{ id: 'J---aiyznGQ', name: 'Keyboard Cat' },
+		{ id: 'z_AbfPXTKms', name: 'Maru' },
+		{ id: 'OUtn3pvWmpg', name: 'Henri The Existential Cat' }
+	];
+</script>
+
+<h1>The Famous Cats of YouTube</h1>
+
+<ul>
+	{#each cats as { id, name } (id), i}
+    <li>
+      <a target="_blank"
+         href="https://www.youtube.com/watch?v={id}"
+      >
+        {i + 1}: {name}
+      </a>
+    </li>
+	{/each}
+</ul>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 Thank You
