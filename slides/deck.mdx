@@ -1001,6 +1001,49 @@ export default function App() {
 
 ---
 
+### Element Refs
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx subtitle="element ref can be obtained using useRef"
+export default function App() {
+  const divRef = React.useRef();
+
+  useEffect(() => {
+    console.log(divRef.current.scrollHeight);
+  }, []);
+
+  return (
+    <div ref={divRef}>
+      Hello World!
+    </div>
+  )
+}
+```
+
+```html subtitle="element ref can be obtained using bind:this directive"
+<script>
+	import { onMount } from 'svelte'
+	let divRef;
+
+  onMount(() => console.log(divRef.scrollHeight));
+</script>
+
+<div bind:this={divRef}>
+  Hello World!
+</div>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 ### Lifecycle
 
 ---
@@ -1048,6 +1091,42 @@ React.useEffect(() => {
 <CodeSurferColumns themes={COLUMN_THEMES}>
 
 <Step title="Destroy">
+
+```jsx subtitle="useEffect can have an optional return function which is called on component destroy"
+// componentDidMount
+React.useEffect(() => {
+  const interval = setInterval(
+    () => setSeconds(seconds => seconds += 1),
+    1000
+  );
+
+  return () => {
+    // this is called when component is destroyed
+    clearInterval(interval);
+  } 
+}, [])
+```
+
+```html subtitle="onDestroy is used to detect when component is mounted"
+<script>
+	import { onDestroy } from 'svelte';
+
+	let seconds = 0;
+	const interval = setInterval(() => seconds += 1, 1000);
+
+	onDestroy(() => clearInterval(interval));
+</script>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step title="Update">
 
 ```jsx subtitle="useEffect can have an optional return function which is called on component destroy"
 // componentDidMount
