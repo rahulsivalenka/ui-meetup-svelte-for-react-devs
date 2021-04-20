@@ -1128,29 +1128,24 @@ React.useEffect(() => {
 
 <Step title="Update">
 
-```jsx subtitle="useEffect can have an optional return function which is called on component destroy"
-// componentDidMount
+```jsx subtitle="useEffect with dependencies is called whenever any of those dependencies change"
+// componentDidUpdate
 React.useEffect(() => {
-  const interval = setInterval(
-    () => setSeconds(seconds => seconds += 1),
-    1000
-  );
-
-  return () => {
-    // this is called when component is destroyed
-    clearInterval(interval);
-  } 
-}, [])
+  // ...
+}, [dependencies])
 ```
 
-```html subtitle="onDestroy is used to detect when component is mounted"
+```html subtitle="The beforeUpdate function schedules work to happen immediately before the DOM is updated. afterUpdate is its counterpart, used for running code once the DOM is in sync with your data."
 <script>
-	import { onDestroy } from 'svelte';
+	import { beforeUpdate, afterUpdate } from 'svelte';
 
-	let seconds = 0;
-	const interval = setInterval(() => seconds += 1, 1000);
+	beforeUpdate(() => {
+    // ...
+  });
 
-	onDestroy(() => clearInterval(interval));
+  afterUpdate(() => {
+    // ...
+  });
 </script>
 ```
 
