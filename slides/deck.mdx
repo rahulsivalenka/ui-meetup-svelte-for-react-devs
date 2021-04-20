@@ -658,4 +658,191 @@ export default function App() {
 
 ---
 
+### Asynchronous data
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step subtitle="consider an API call like so">
+
+```jsx 1:10
+async function getRandomNumber() {
+  const res = await fetch(`api/random-number`);
+  const text = await res.text();
+
+  if (res.ok) {
+    return text;
+  } else {
+    throw new Error(text);
+  }
+}
+
+export default function App() {
+  const [loading, setLoading] = React.useState(null);
+  const [number, setNumber] = React.useState(null);
+  const [error, setError] = React.useState(null);
+
+  React.useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        setNumber(await getRandomNumber());
+      } catch(err) {
+        setError(err.message);
+      }
+      setLoading(false);
+    })();
+  }, []);
+
+  const handleClick = () => {
+    setLoading(true);
+    try {
+      setNumber(await getRandomNumber());
+    } catch(err) {
+      setError(err.message);
+    }
+    setLoading(false);
+  }
+
+  const result = loading 
+    ? <p>...waiting</p>
+    : error
+    ? <p style="color: red">{error.message}</p>
+    : <p>The number is {number}</p>;
+
+  return (
+    <>
+      <button onClick={handleClick}>generate random number</button>
+
+      {result}
+    </>
+  )
+}
+```
+
+```html 2:11
+<script>
+	async function getRandomNumber() {
+		const res = await fetch(`api/random-number`);
+		const text = await res.text();
+
+		if (res.ok) {
+			return text;
+		} else {
+			throw new Error(text);
+		}
+	}
+
+	let promise = getRandomNumber();
+
+	function handleClick() {
+		promise = getRandomNumber();
+	}
+</script>
+
+<button on:click={handleClick}>
+	generate random number
+</button>
+
+{#await promise}
+	<p>...waiting</p>
+{:then number}
+	<p>The number is {number}</p>
+{:catch error}
+	<p style="color: red">{error.message}</p>
+{/await}
+```
+
+</Step>
+
+<Step subtitle="to make an API call">
+
+```diff 11:52
+```
+
+```diff 13:30
+```
+
+</Step>
+
+<Step>
+
+```diff 13:44 subtitle="most of the work is done in JS"
+```
+
+```diff 13:17,24:30 subtitle="most of the work can be done in markup"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+Events
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx subtitle="DOM events can be listened using on... prefix"
+<div onMousemove={handleMousemove}>
+	The mouse position is {m.x} x {m.y}
+</div>
+```
+
+```html subtitle="DOM events can be listened using on: direct"
+<div on:mousemove={handleMousemove}>
+	The mouse position is {m.x} x {m.y}
+</div>
+```
+
+</Step>
+
+<Step subtitle="handlers can be inline">
+
+```jsx
+<div onMousemove={e => setM({
+  x: e.clientX, y: e.clientY
+})}>
+	The mouse position is {m.x} x {m.y}
+</div>
+```
+
+```html
+<div on:mousemove="{e => m = { x: e.clientX, y: e.clientY }}">
+	The mouse position is {m.x} x {m.y}
+</div>
+```
+
+</Step>
+
+<Step>
+
+```jsx subtitle="event modifiers have to applied in JS"
+<div onMousemove={e => {
+  e.preventDefault();
+  setM({
+    x: e.clientX, y: e.clientY
+  })
+}}>
+	The mouse position is {m.x} x {m.y}
+</div>
+```
+
+```html subtitle="event modifiers are applied using pipe (|). They can also be chained like on:click|once|capture={...}"
+<div on:mousemove|preventDefault="{e => m = { x: e.clientX, y: e.clientY }}">
+	The mouse position is {m.x} x {m.y}
+</div>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 Thank You
