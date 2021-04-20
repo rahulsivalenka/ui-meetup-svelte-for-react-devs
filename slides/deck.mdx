@@ -150,7 +150,7 @@ export default function App() {
 
 <!-- html goes here -->
 <p>{name}</p>
-<button on:click="{handleChangeName}">Change Name</button>
+<button on:click={handleChangeName}>Change Name</button>
 ```
 
 </Step>
@@ -308,14 +308,14 @@ export default function App() {
 <Step title="Svelte: reactivity" subtitle="We're not limited to declaring reactive values — we can also run arbitrary statements reactively.">
 
 ```html 3
-// App.svelte
+<!-- App.svelte -->
 <script>
   $: console.log(`the count is ${count}`);
 </script>
 ```
 
 ```html 3:6
-// App.svelte
+<!-- App.svelte -->
 <script>
   $: {
     console.log(`the count is ${count}`);
@@ -325,7 +325,7 @@ export default function App() {
 ```
 
 ```html 3:6
-// App.svelte
+<!-- App.svelte -->
 <script>
   $: if (count >= 10) {
     alert(`count is dangerously high!`);
@@ -345,7 +345,7 @@ export default function App() {
 <Step title="Svelte: reactivity" subtitle="Because Svelte's reactivity is triggered by assignments, using array methods like push and splice won't automatically cause updates">
 
 ```html 6,9
-// App.svelte
+<!-- App.svelte -->
 <script>
   let numbers = [1, 2, 3, 4];
 
@@ -358,7 +358,7 @@ export default function App() {
 
 <p>{numbers.join(' + ')} = {sum}</p>
 
-<button on:click="{addNumber}">Add a number</button>
+<button on:click={addNumber}>Add a number</button>
 ```
 
 </Step>
@@ -366,7 +366,7 @@ export default function App() {
 <Step title="Svelte: reactivity" subtitle="relies on immutability">
 
 ```html
-// App.svelte
+<!-- App.svelte -->
 <script>
   let numbers = [1, 2, 3, 4];
 
@@ -379,7 +379,93 @@ export default function App() {
 
 <p>{numbers.join(' + ')} = {sum}</p>
 
-<button on:click="{addNumber}">Add a number</button>
+<button on:click={addNumber}>Add a number</button>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+### Conditionals
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx
+// App.js
+const DEFAULT_USER = {
+  loggedIn: false,
+};
+export default function App({ user = DEFAULT_USER }) {
+  if (user.loggedIn) {
+    return (
+      <button onClick={toggle}>Log out</button>
+    );
+  }
+  
+  return (
+    <button onClick={toggle}>Log in</button>;
+  );
+}
+```
+
+```html
+<!-- App.svelte -->
+<script>
+  export let user = { loggedIn: false };
+
+  const toggle = () => {
+    // ...
+  };
+</script>
+
+{#if user.loggedIn}
+  <button on:click={toggle}>Log out</button>
+{/if}
+
+{#if !user.loggedIn}
+  <button on:click={toggle}>Log in</button>
+{/if}
+```
+
+</Step>
+
+<Step>
+
+```jsx 6:10
+// App.js
+const DEFAULT_USER = {
+  loggedIn: false,
+};
+export default function App({ user = DEFAULT_USER }) {
+  return user.loggedIn ? (
+    <button onClick={toggle}>Log out</button>
+  ) : (
+    <button onClick={toggle}>Log in</button>
+  );
+}
+```
+
+```html 10,12,14 subtitle="# => block opening tag. / => block closing tag. : character, as in {:else} => block continuation tag"
+<!-- App.svelte -->
+<script>
+  export let user = { loggedIn: false };
+
+  const toggle = () => {
+    // ...
+  };
+</script>
+
+{#if user.loggedIn}
+  <button on:click={toggle}>Log out</button>
+{:else}
+  <button on:click={toggle}>Log in</button>
+{/if}
 ```
 
 </Step>
