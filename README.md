@@ -1,1 +1,1 @@
-# ui-meetup-react-working-patterns
+# ui-meetup-svelte-for-react-devs
