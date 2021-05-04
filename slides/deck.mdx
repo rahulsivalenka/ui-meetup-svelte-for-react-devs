@@ -1196,4 +1196,108 @@ React.useEffect(() => {
 
 ---
 
+### Actions
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx subtitle="Custom hooks can be used to reuse functionality applied to an element"
+// useOnOutsideClick.js
+export function useOnOutsideClick(ref, handler) {
+  useEffect(
+    () => {
+      const listener = (event) => {
+        // Do nothing if clicking ref's element or descendent elements
+        if (!ref.current || ref.current.contains(event.target)) {
+          return;
+        }
+        handler(event);
+      };
+
+      document.addEventListener("mousedown", listener);
+      document.addEventListener("touchstart", listener);
+
+      return () => {
+        // on un-mount cleanup
+        document.removeEventListener("mousedown", listener);
+        document.removeEventListener("touchstart", listener);
+      };
+    },
+    [ref, handler]
+  );
+}
+```
+
+```js subtitle="Actions can be used to reuse functionality applied to an element"
+// onOutsideClick.js
+export function onOutsideClick(node) {
+  const listener = (event) => {
+    // Do nothing if clicking ref's element or descendent elements
+    if (!node || node.contains(event.target)) {
+      return;
+    }
+    node.dispatchEvent(new CustomEvent('outsideclick'));
+  };
+
+  document.addEventListener("mousedown", listener);
+  document.addEventListener("touchstart", listener);
+  
+  return {
+    destroy() {
+      // on destroy cleanup
+      document.removeEventListener("mousedown", listener);
+      document.removeEventListener("touchstart", listener);
+    }
+  };
+}
+```
+
+</Step>
+
+<Step>
+
+```jsx subtitle="Custom hooks are used just as we use built-in hooks"
+// App.js
+import { useOnOutsideClick } from './useOnOutsideClick';
+
+function App() {
+  const divRef = useRef();
+
+  useOnOutsideClick(divRef, () => console.log('clicked outside the element'))
+
+  return (
+    <div ref={divRef}>
+      Content
+    </div>
+  );
+}
+```
+
+```html subtitle="Actions are used using 'use' directive"
+// App.svelte
+<script>
+  import { onOutsideClick } from './onOutsideClick';
+
+  function handleOutsideClick() {
+    console.log('clicked outside the element')
+  }
+</script>
+
+<div
+  use:onOutsideClick
+  on:outsideclick={handleOutsideClick}
+>
+  Content
+</div>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 Thank You
