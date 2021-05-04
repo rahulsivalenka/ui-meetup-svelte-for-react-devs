@@ -1435,4 +1435,111 @@ export default function App() {
 
 ---
 
+### Components Communication without passing around props or dispatching lots of events
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step>
+
+```jsx showNumbers subtitle="use React Context API"
+const MapContext = React.createContext({});
+
+function Map({ children }) {
+  const [map] = React.useState(() => new mapbox.Map());
+
+  return (
+    <MapContext.Provider value={{
+      getMap: () => map,
+    }}>
+      {children}
+    </MapContext.Provider>
+  );
+}
+
+const useMap = () => React.useContext(MapContext);
+
+function MapMarker() {
+  const { getMap } = useMap();
+  const map = getMap();
+
+  useEffect(() => {
+    new mapbox.Marker().addTo(map)
+  }, [map]);
+
+  return null;
+}
+
+function App() {
+  return (
+    <Map>
+      <MapMarker />
+    </Map>
+  )  
+}
+```
+
+```html showNumbers subtitle="use Svelte Context API"
+<!-- Map.svelte -->
+<script>
+  import { onMount, setContext } from 'svelte';
+  
+  setContext('map', {
+    getMap: () => map,
+  });
+
+  let map;
+
+  onMount(() => {
+    map = new mapbox.Map();
+  })
+</script>
+
+
+
+<!-- MapMarker.svelte -->
+<script>
+  import { getContext } from 'svelte';
+
+  const { getMap } = getContext('map');
+
+  const map = getMap();
+
+  new mapbox.Marker().addTo(map);
+</script>
+
+
+<!-- App.svelte -->
+<Map>
+  <MapMarker />
+</Map>
+```
+
+</Step>
+
+<Step>
+
+```diff 1,7:11 subtitle="create and provide the context"
+```
+
+```diff 5:7 subtitle="set the context"
+```
+
+</Step>
+
+<Step>
+
+```diff 15,18,19 subtitle="use the context"
+```
+
+```diff 22:24 subtitle="use the context"
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
 Thank You
