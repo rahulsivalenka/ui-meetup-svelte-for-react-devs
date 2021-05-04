@@ -1277,14 +1277,14 @@ function App() {
 ```
 
 ```html subtitle="Actions are used using 'use' directive"
-// App.svelte
-<script>
+<!-- App.svelte -->
+<script???>
   import { onOutsideClick } from './onOutsideClick';
 
   function handleOutsideClick() {
     console.log('clicked outside the element')
   }
-</script>
+</script???>
 
 <div
   use:onOutsideClick
@@ -1292,6 +1292,68 @@ function App() {
 >
   Content
 </div>
+```
+
+</Step>
+
+</CodeSurferColumns>
+
+---
+
+### Component Composition
+
+---
+
+<CodeSurferColumns themes={COLUMN_THEMES}>
+
+<Step title="Component composition">
+
+```jsx subtitle="is achieved using 'children' prop"
+// Box.js
+export default function Box({ children }) {
+  return (
+    <div className="box">
+      {children}
+    </div>
+  );
+}
+```
+
+```js subtitle="is achieved using 'slot' tag"
+<!-- Box.svelte -->
+<div class="box">
+  <slot></slot>
+</div>
+```
+
+</Step>
+
+<Step title="Component composition">
+
+```jsx subtitle="and composed children are sent between open and close braces of component"
+// App.js
+import Box from './Box';
+
+export default function App() {
+  return (
+    <Box>
+      <h2>The Box</h2>
+      <p>This is wrapped with a box.</p>
+    </Box>
+  );
+}
+```
+
+```js subtitle="same here"
+<!-- App.svelte -->
+<script>
+  import Box from './Box.svelte';
+</script>
+
+<Box>
+  <h2>The Box</h2>
+  <p>This is wrapped with a box.</p>
+</Box>
 ```
 
 </Step>
