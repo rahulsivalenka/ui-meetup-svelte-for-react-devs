@@ -1319,7 +1319,7 @@ export default function Box({ children }) {
 }
 ```
 
-```js subtitle="is achieved using 'slot' tag"
+```html subtitle="is achieved using 'slot' tag"
 <!-- Box.svelte -->
 <div class="box">
   <slot></slot>
@@ -1344,7 +1344,7 @@ export default function App() {
 }
 ```
 
-```js subtitle="same here"
+```html subtitle="same here"
 <!-- App.svelte -->
 <script>
   import Box from './Box.svelte';
@@ -1354,6 +1354,79 @@ export default function App() {
   <h2>The Box</h2>
   <p>This is wrapped with a box.</p>
 </Box>
+```
+
+</Step>
+
+<Step title="Component composition: Named">
+
+```jsx subtitle="naming children can be achieved by defining props for each named ones"
+// Viewport.js
+export default function Viewport({ center, left, top }) {
+  return (
+    <>
+      <header>
+        {top ?? (<p>Unknown</p>)}
+      </header>
+      
+      <aside>
+        {left ?? (<p>Unknown</p>)}
+      </aside>
+      
+      <main>
+        {center ?? (<p>Unknown</p>)}
+      </main>
+    </>
+  );
+}
+```
+
+```html subtitle="here by using the 'name' attribute on 'slot' element"
+<!-- Viewport.svelte -->
+<header>
+  <slot name="top">
+    <!-- fallback to render -->
+    <p>Unknown</p>
+  </slot>
+</header>
+
+<aside>
+  <slot name="left">
+    <p>Unknown</p>
+  </slot>
+</aside>
+
+<main>
+  <slot name="center">
+    <p>Unknown</p>
+  </slot>
+</main>
+```
+
+</Step>
+
+<Step title="Component composition: Named">
+
+```jsx subtitle="can be sent in using the corresponding named props"
+// App.js
+export default function App() {
+  return (
+    <Viewport 
+      center={<div>Center</div>}
+      left={<div>Left</div>}
+      top={<div>Top</div>}
+    />
+  );
+}
+```
+
+```html subtitle="here by using the 'name' attribute on 'slot' element"
+<!-- App.svelte -->
+<Viewport>
+  <div slot="center">Center</div>
+  <div slot="left">Left</div>
+  <div slot="top">Top</div>
+</Viewport>
 ```
 
 </Step>
